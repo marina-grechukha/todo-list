@@ -1,34 +1,47 @@
-# todo-list
+#ToDo List
 
-## Project setup
-```
-npm install
-```
+##Сущности:
+- пользователь (user)
+- проект
+- задача
+---
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+1. Регистрация пользователя
+2. Аутентификация пользователя
+3. Проект (CRUD)
+    - Создание (Create) проекта у пользователя
+    - Список (Read) проектов пользователя
+    - Редактирование (Edit)
+    - Удаление (Delete)
+4. Задача (CRUD) 
+    - Создание задачи к проекту
+    - Список зачач у проекта
+    - Редактирование
+    - Удаление
+    - Отметить задачу выполненной
+    
+---
+###User
+- ID: number
+- Email: string
+- Password: string
 
-### Compiles and minifies for production
-```
-npm run build
-```
+---
+###Project
+- ID: number
+- userId: number
+- name: string
 
-### Run your unit tests
-```
-npm run test:unit
-```
+---
+###Task
+- ID: number
+- projectId: number
+- name: string
+- state: boolean (default false)
 
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
+---
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+###Technologies
+- [x] JS + Vue JS
+- [x] Tailwind CSS
+- [ ] Firebase
