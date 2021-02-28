@@ -19,8 +19,17 @@
         />
       </div>
 
-      <button class="w-full rounded-md px-4 py-2 bg-green-500 text-white" type="submit">Sign In</button>
+      <div class="mb-4">
+        <input
+          class="w-full border border-gray-300 rounded-md px-4 py-2"
+          type="password"
+          name="password_confirm"
+          placeholder="Enter Password Confirmation"
+        />
+      </div>
+
+      <button class="w-full rounded-md px-4 py-2 bg-green-500 text-white" type="submit">Sign Up</button>
     </form>
-    <router-link to="/sign-up">Sign Up</router-link>
+    <router-link to="/sign-in">Sign In</router-link>
   </div>
 </template>
