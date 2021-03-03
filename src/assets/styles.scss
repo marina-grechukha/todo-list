@@ -1,0 +1,11 @@
+.field {
+  @apply w-full border rounded-md px-4 py-2 border-gray-300;
+}
+
+.field-with-error {
+  @apply border-red-500;
+}
+
+.field-error {
+  @apply text-red-500 text-sm;
+}
