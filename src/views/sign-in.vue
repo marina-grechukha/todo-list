@@ -1,6 +1,8 @@
 <template>
   <div class="w-72 mx-auto mt-20">
     <ValidationObserver v-slot="{ invalid }">
+      <div v-if="authError" class="alert error">{{ authError }}</div>
+
       <form class="mb-4" @submit.prevent="onSubmit">
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="E-mail" rules="required|email">
@@ -48,6 +50,7 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import '@/validators'
 
@@ -58,11 +61,22 @@ export default {
   },
   data: () => ({
     email: '',
-    password: ''
+    password: '',
+    authError: null
   }),
   methods: {
     onSubmit() {
-      alert('Form has been submitted!')
+      this.authError = null
+
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(userCredential => {
+          console.log(userCredential)
+        })
+        .catch(error => {
+          this.authError = error.message
+        })
     }
   }
 }

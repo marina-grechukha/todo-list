@@ -9,3 +9,15 @@
 .field-error {
   @apply text-red-500 text-sm;
 }
+
+.alert {
+  @apply px-4 py-2 mb-4 border rounded;
+}
+
+.alert.error {
+  @apply border-red-500 text-red-700 bg-red-100;
+}
+
+.alert.success {
+  @apply border-green-500 text-green-700 bg-green-100;
+}

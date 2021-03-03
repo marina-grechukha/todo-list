@@ -1,6 +1,8 @@
 <template>
   <div class="w-72 mx-auto mt-20">
-    <ValidationObserver v-slot="{ invalid }">
+    <ValidationObserver v-if="!isUserSignedUp" v-slot="{ invalid }">
+      <div v-if="authError" class="alert error">{{ authError }}</div>
+
       <form class="mb-4" @submit.prevent="onSubmit">
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="E-mail" rules="required|email">
@@ -53,17 +55,21 @@
           type="submit"
           :disabled="invalid"
         >
-          Sign In
+          Sign Up
         </button>
       </form>
     </ValidationObserver>
+
+    <div v-if="isUserSignedUp" class="alert success">
+      You have been successfully signed up.
+    </div>
 
     <router-link to="/sign-in">Sign In</router-link>
   </div>
 </template>
 
 <script>
-// import firebase from 'firebase/app'
+import firebase from 'firebase/app'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import '@/validators'
 
@@ -76,11 +82,23 @@ export default {
   data: () => ({
     email: '',
     password: '',
-    password_confirm: ''
+    password_confirm: '',
+    authError: null,
+    isUserSignedUp: false
   }),
   methods: {
     onSubmit() {
-      alert('Form has been submitted!')
+      this.authError = null
+
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          this.isUserSignedUp = true
+        })
+        .catch((error) => {
+          this.authError = error.message
+        })
     }
   }
 }
