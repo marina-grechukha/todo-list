@@ -5,6 +5,8 @@ import store from './store'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { ValidationProvider } from 'vee-validate'
+import BlankTemplate from '@/components/templates/blank'
+import MainTemplate from '@/components/templates/main'
 
 import 'tailwindcss/tailwind.css'
 import '@/assets/styles.scss'
@@ -24,6 +26,8 @@ firebase.initializeApp(firebaseConfig)
 Vue.config.productionTip = false
 
 Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('blank-template', BlankTemplate)
+Vue.component('main-template', MainTemplate)
 
 new Vue({
   router,

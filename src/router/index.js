@@ -9,19 +9,19 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    meta: { protected: true },
+    meta: { protected: true, template: 'main' },
     component: Home
   },
   {
     path: '/sign-in',
     name: 'Sign In',
-    meta: { protected: false },
+    meta: { protected: false, template: 'blank' },
     component: () => import(/* webpackChunkName: "sign-in" */ '../views/sign-in.vue')
   },
   {
     path: '/sign-up',
     name: 'Sign Up',
-    meta: { protected: false },
+    meta: { protected: false, template: 'blank' },
     component: () => import(/* webpackChunkName: "sign-in" */ '../views/sign-up.vue')
   }
 ]
