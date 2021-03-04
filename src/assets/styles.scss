@@ -10,6 +10,18 @@
   @apply text-red-500 text-sm;
 }
 
+.btn {
+  @apply px-4 py-2 text-center rounded-md focus:outline-none focus:ring-4;
+}
+
+.btn.gray {
+  @apply bg-gray-500 text-white focus:ring-gray-300;
+}
+
+.btn.green {
+  @apply bg-green-500 text-white focus:ring-green-300;
+}
+
 .alert {
   @apply px-4 py-2 mb-4 border rounded;
 }
@@ -20,4 +32,19 @@
 
 .alert.success {
   @apply border-green-500 text-green-700 bg-green-100;
+}
+
+/* Animations */
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  transform: scale(1.1);
 }
