@@ -70,11 +70,11 @@ export default {
 
       firebase
         .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(userCredential => {
-          console.log(userCredential)
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+          return firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         })
-        .catch(error => {
+        .catch((error) => {
           this.authError = error.message
         })
     }
