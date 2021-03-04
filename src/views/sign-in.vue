@@ -72,7 +72,12 @@ export default {
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.SESSION)
         .then(() => {
-          return firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+          return firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password)
+            .then(() => {
+              this.$router.push('/')
+            })
         })
         .catch((error) => {
           this.authError = error.message
