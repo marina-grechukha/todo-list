@@ -3,7 +3,7 @@
     <ValidationObserver v-if="!isUserSignedUp" v-slot="{ invalid }">
       <div v-if="authError" class="alert error">{{ authError }}</div>
 
-      <form class="mb-4" @submit.prevent="onSubmit">
+      <form class="mb-4" @submit.prevent="handleSubmit">
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="E-mail" rules="required|email">
             <input
@@ -49,12 +49,7 @@
           </ValidationProvider>
         </div>
 
-        <button
-          class="w-full rounded-md px-4 py-2 text-white"
-          :class="invalid ? 'bg-gray-300' : 'bg-green-500'"
-          type="submit"
-          :disabled="invalid"
-        >
+        <button class="w-full btn" :class="invalid ? 'gray' : 'green'" type="submit" :disabled="invalid">
           Sign Up
         </button>
       </form>
@@ -87,7 +82,7 @@ export default {
     isUserSignedUp: false
   }),
   methods: {
-    onSubmit() {
+    handleSubmit() {
       this.authError = null
 
       firebase
@@ -96,7 +91,7 @@ export default {
         .then(() => {
           this.isUserSignedUp = true
         })
-        .catch((error) => {
+        .catch(error => {
           this.authError = error.message
         })
     }
