@@ -16,10 +16,6 @@
           <div class="px-4 py-2 border-t border-b border-gray-200">
             <slot />
           </div>
-
-          <div class="px-4 py-2 bg-gray-100 rounded-b-md flex flex-row justify-end space-x-2">
-            <slot name="footer" />
-          </div>
         </div>
       </div>
     </div>
