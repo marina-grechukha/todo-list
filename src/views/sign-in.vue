@@ -7,7 +7,7 @@
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="E-mail" rules="required|email">
             <input
-              v-model="email"
+              v-model="form.email"
               class="field"
               :class="{ 'field-with-error': errors[0] }"
               type="email"
@@ -22,7 +22,7 @@
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="Password" rules="required">
             <input
-              v-model="password"
+              v-model="form.password"
               class="field"
               :class="{ 'field-with-error': errors[0] }"
               type="password"
@@ -45,9 +45,9 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import '@/validators'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -55,28 +55,23 @@ export default {
     ValidationProvider
   },
   data: () => ({
-    email: '',
-    password: '',
+    form: {
+      email: '',
+      password: ''
+    },
     authError: null
   }),
   methods: {
-    handleSubmit() {
-      this.authError = null
+    ...mapActions('users', ['signIn']),
+    async handleSubmit() {
+      try {
+        this.authError = null
 
-      firebase
-        .auth()
-        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-        .then(() => {
-          return firebase
-            .auth()
-            .signInWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-              this.$router.push('/')
-            })
-        })
-        .catch(error => {
-          this.authError = error.message
-        })
+        await this.signIn(this.form)
+        await this.$router.push('/')
+      } catch (error) {
+        this.authError = error.message
+      }
     }
   }
 }

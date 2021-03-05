@@ -4,24 +4,26 @@
       ToDo List
     </div>
     <div>
-      {{ email }}
+      {{ users.email }}
       <a href="" class="text-pink-700 ml-4" @click.prevent="handleSignOut">Sign Out</a>
     </div>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase/app'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   computed: {
-    email() {
-      return firebase.auth().currentUser.email
-    }
+    ...mapState(['users'])
+  },
+  mounted() {
+    this.loadUserInfo()
   },
   methods: {
+    ...mapActions('users', ['loadUserInfo', 'signOut']),
     handleSignOut() {
-      firebase.auth().signOut()
+      this.signOut()
     }
   }
 }

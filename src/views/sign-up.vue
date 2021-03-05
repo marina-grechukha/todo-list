@@ -7,7 +7,7 @@
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="E-mail" rules="required|email">
             <input
-              v-model="email"
+              v-model="form.email"
               class="field"
               :class="{ 'field-with-error': errors[0] }"
               type="email"
@@ -22,7 +22,7 @@
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="Password" rules="required|min:6">
             <input
-              v-model="password"
+              v-model="form.password"
               class="field"
               :class="{ 'field-with-error': errors[0] }"
               type="password"
@@ -37,7 +37,7 @@
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="Password Confirmation" rules="required|password:@Password">
             <input
-              v-model="password_confirm"
+              v-model="form.password_confirm"
               class="field"
               :class="{ 'field-with-error': errors[0] }"
               type="password"
@@ -55,45 +55,39 @@
       </form>
     </ValidationObserver>
 
-    <div v-if="isUserSignedUp" class="alert success">
-      You have been successfully signed up.
-    </div>
-
     <router-link to="/sign-in">Sign In</router-link>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase/app'
+import { mapActions } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import '@/validators'
 
-// https://firebase.google.com/docs/auth/web/password-auth?authuser=0
 export default {
   components: {
     ValidationObserver,
     ValidationProvider
   },
   data: () => ({
-    email: '',
-    password: '',
-    password_confirm: '',
-    authError: null,
-    isUserSignedUp: false
+    form: {
+      email: '',
+      password: '',
+      password_confirm: ''
+    },
+    authError: null
   }),
   methods: {
-    handleSubmit() {
-      this.authError = null
-
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.isUserSignedUp = true
-        })
-        .catch(error => {
-          this.authError = error.message
-        })
+    ...mapActions('users', ['signUp', 'signIn']),
+    async handleSubmit() {
+      try {
+        this.authError = null
+        await this.signUp(this.form)
+        await this.signIn(this.form)
+        await this.$router.push('/')
+      } catch (error) {
+        this.authError = error.message
+      }
     }
   }
 }

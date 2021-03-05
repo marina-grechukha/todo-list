@@ -61,8 +61,7 @@ export default {
     }
   },
   mounted() {
-    const database = firebase.database()
-    console.log(database)
+    // const database = firebase.database()
   },
   methods: {
     handleModalToggle() {
