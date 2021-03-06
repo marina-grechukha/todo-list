@@ -8,6 +8,7 @@ import 'firebase/database'
 import { ValidationProvider } from 'vee-validate'
 import BlankTemplate from '@/components/templates/blank'
 import MainTemplate from '@/components/templates/main'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 import 'tailwindcss/tailwind.css'
 import '@/assets/styles.scss'
@@ -29,6 +30,7 @@ Vue.config.productionTip = false
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('blank-template', BlankTemplate)
 Vue.component('main-template', MainTemplate)
+Vue.component('pulse-loader', PulseLoader)
 
 new Vue({
   router,
