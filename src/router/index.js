@@ -33,7 +33,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-  firebase.auth().onAuthStateChanged((user) => {
+  firebase.auth().onAuthStateChanged(user => {
     if (to.meta.protected && !user) next('/sign-in')
     else next()
   })

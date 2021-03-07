@@ -1,5 +1,7 @@
 <template>
   <div class="w-72 mx-auto mt-20">
+    <h1 class="text-2xl font-extrabold mb-4">Sign In</h1>
+
     <ValidationObserver v-slot="{ invalid }">
       <div v-if="authError" class="alert error">{{ authError }}</div>
 
@@ -40,7 +42,9 @@
       </form>
     </ValidationObserver>
 
-    <router-link to="/sign-up">Sign Up</router-link>
+    <div class="text-center">
+      <router-link to="/sign-up" class="link">Sign Up</router-link> if you don't have an account.
+    </div>
   </div>
 </template>
 

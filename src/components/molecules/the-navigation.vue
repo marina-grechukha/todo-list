@@ -3,9 +3,9 @@
     <div class="flex-1 font-extrabold">
       ToDo List
     </div>
-    <div>
-      {{ users.email }}
-      <a href="" class="text-pink-700 ml-4" @click.prevent="handleSignOut">Sign Out</a>
+    <div class="flex space-x-4">
+      <div>{{ users.email }}</div>
+      <a href="" class="link" @click.prevent="handleSignOut">Sign Out</a>
     </div>
   </div>
 </template>

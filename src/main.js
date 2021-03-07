@@ -6,11 +6,13 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { ValidationProvider } from 'vee-validate'
+import Toast from 'vue-toastification'
 import BlankTemplate from '@/components/templates/blank'
 import MainTemplate from '@/components/templates/main'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 import 'tailwindcss/tailwind.css'
+import 'vue-toastification/dist/index.css'
 import '@/assets/styles.scss'
 
 const firebaseConfig = {
@@ -26,6 +28,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 Vue.config.productionTip = false
+
+Vue.use(Toast, {})
 
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('blank-template', BlankTemplate)
