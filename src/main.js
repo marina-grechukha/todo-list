@@ -16,13 +16,13 @@ import 'vue-toastification/dist/index.css'
 import '@/assets/styles.scss'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCudA09Vd5vK-DZtScG0ApinIxdMIh1YGw',
-  authDomain: 'todo-list-marina.firebaseapp.com',
-  databaseURL: 'https://todo-list-marina-default-rtdb.firebaseio.com',
-  projectId: 'todo-list-marina',
-  storageBucket: 'todo-list-marina.appspot.com',
-  messagingSenderId: '776288536616',
-  appId: '1:776288536616:web:364ff0a41c62fe3f334d1d'
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.VUE_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID
 }
 
 firebase.initializeApp(firebaseConfig)

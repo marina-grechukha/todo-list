@@ -1,16 +1,22 @@
 import firebase from 'firebase/app'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/home.vue'
+import Projects from '../views/projects.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Projects',
     meta: { protected: true, template: 'main' },
-    component: Home
+    component: Projects
+  },
+  {
+    path: '/project/:id',
+    name: 'Project',
+    meta: { protected: true, template: 'main' },
+    component: () => import(/* webpackChunkName: "project" */ '../views/project.vue')
   },
   {
     path: '/sign-in',

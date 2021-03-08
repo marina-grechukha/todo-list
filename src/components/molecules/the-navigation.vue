@@ -1,8 +1,8 @@
 <template>
   <div class="p-4 bg-gray-300 rounded-b-md flex">
-    <div class="flex-1 font-extrabold">
+    <router-link to="/" class="flex-1 font-extrabold">
       ToDo List
-    </div>
+    </router-link>
     <div class="flex space-x-4">
       <div>{{ users.email }}</div>
       <a href="" class="link" @click.prevent="handleSignOut">Sign Out</a>

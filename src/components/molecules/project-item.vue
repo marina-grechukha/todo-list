@@ -1,7 +1,7 @@
 <template>
   <div class="px-4 py-2 bg-gray-200 border border-gray-300 rounded">
     <div class="flex items-center">
-      <div class="flex-1">{{ project.name }}</div>
+      <router-link :to="`/project/${project.id}`" class="flex-1">{{ project.name }}</router-link>
       <div class="flex items-center">
         <button class="w-6 h-6 flex items-center justify-center text-gray-500" @click="handleEdit(project)">
           <EditIcon class="w-4 h-4" />

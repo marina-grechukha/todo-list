@@ -1,7 +1,5 @@
 <template>
   <div class="w-1/2 flex flex-col m-auto">
-    <pulse-loader v-if="projects.loading" :loading="true" size="2rem" class="flex justify-center my-10" />
-
     <div v-if="!projects.list.length && !projects.loading" class="alert info">
       No projects. Just press the button above to create a new one.
     </div>
@@ -58,11 +56,8 @@ export default {
   computed: {
     ...mapState(['projects'])
   },
-  mounted() {
-    this.loadProjects()
-  },
   methods: {
-    ...mapActions('projects', ['loadProjects', 'deleteProject']),
+    ...mapActions('projects', ['deleteProject']),
     handleEditFormToggle() {
       this.isEditFormShown = !this.isEditFormShown
     },

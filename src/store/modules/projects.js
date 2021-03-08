@@ -7,6 +7,14 @@ export const state = {
   loading: false
 }
 
+export const getters = {
+  getProjectById(state) {
+    return id => {
+      return state.list.find(project => project.id === id) || {}
+    }
+  }
+}
+
 export const mutations = {
   SET_LOADING(state, status) {
     state.loading = status
@@ -32,17 +40,6 @@ export const mutations = {
 }
 
 export const actions = {
-  async addProject({ commit }, data) {
-    const user = firebase.auth().currentUser
-
-    const result = await firebase
-      .database()
-      .ref(`users/${user.uid}/projects`)
-      .push(data)
-
-    commit('ADD_PROJECT', { id: result.key, ...data })
-  },
-
   async loadProjects({ commit }) {
     const user = firebase.auth().currentUser
 
@@ -66,6 +63,46 @@ export const actions = {
     }
 
     commit('SET_LOADING', false)
+  },
+
+  async loadProjectById({ commit, state }, projectId) {
+    if (state.list.find(item => item.id === projectId)) {
+      return
+    }
+
+    const user = firebase.auth().currentUser
+
+    commit('SET_LOADING', true)
+
+    try {
+      const snapshot = await firebase
+        .database()
+        .ref(`users/${user.uid}/projects/${projectId}`)
+        .get()
+
+      const values = await snapshot.val()
+      const project = {
+        id: projectId,
+        ...values
+      }
+
+      commit('ADD_PROJECT', project)
+    } catch (error) {
+      this._vm.$toast.error(error.message)
+    }
+
+    commit('SET_LOADING', false)
+  },
+
+  async addProject({ commit }, data) {
+    const user = firebase.auth().currentUser
+
+    const result = await firebase
+      .database()
+      .ref(`users/${user.uid}/projects`)
+      .push(data)
+
+    commit('ADD_PROJECT', { id: result.key, ...data })
   },
 
   async editProject({ commit }, project) {
