@@ -1,15 +1,16 @@
 <template>
-  <ValidationObserver ref="form">
-    <form @submit.prevent="handleSubmit">
+  <ValidationObserver ref="form" v-slot="{ invalid, handleSubmit }">
+    <form @submit.prevent="handleSubmit(handleSubmitForm)">
       <div class="mb-4">
         <ValidationProvider v-slot="{ errors }" rules="required">
           <input
-            v-model="form.name"
+            v-model.trim="form.name"
             class="field"
             :class="{ 'field-with-error': errors[0] }"
             type="text"
             name="name"
             placeholder="Enter project name"
+            @keydown.prevent.enter="handleSubmit(handleSubmitForm)"
           />
 
           <span class="field-error">{{ errors[0] }}</span>
@@ -17,7 +18,7 @@
       </div>
 
       <textarea
-        v-model="form.description"
+        v-model.trim="form.description"
         class="field mb-4"
         name="description"
         placeholder="Enter project description"
@@ -25,7 +26,7 @@
 
       <div class="flex flex-row justify-end space-x-2">
         <button class="btn gray w-32" @click.prevent="handleClose">Cancel</button>
-        <button class="btn green w-32" type="submit">Add</button>
+        <button class="btn green w-32" type="submit" :disabled="invalid">{{ project ? 'Save' : 'Add' }}</button>
       </div>
     </form>
   </ValidationObserver>
@@ -41,6 +42,12 @@ export default {
     ValidationObserver,
     ValidationProvider
   },
+  props: {
+    project: {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
       form: {
@@ -49,16 +56,20 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.project) {
+      this.form = { ...this.project }
+    }
+  },
   methods: {
-    ...mapActions('projects', ['addProject']),
-    async handleSubmit() {
-      const success = await this.$refs.form.validate()
-
-      if (!success) {
-        return
+    ...mapActions('projects', ['addProject', 'editProject']),
+    async handleSubmitForm() {
+      if (this.project) {
+        await this.editProject(this.form)
+      } else {
+        await this.addProject(this.form)
       }
 
-      await this.addProject(this.form)
       this.$refs.form.reset()
       this.handleClose()
     },

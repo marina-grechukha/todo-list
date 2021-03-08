@@ -20,6 +20,12 @@ export const mutations = {
     state.list = [...state.list, project]
   },
 
+  EDIT_PROJECT(state, project) {
+    const index = state.list.findIndex(item => item.id === project.id)
+
+    state.list[index] = project
+  },
+
   DELETE_PROJECT(state, id) {
     state.list = state.list.filter(project => project.id !== id)
   }
@@ -49,7 +55,7 @@ export const actions = {
         .get()
 
       const values = await snapshot.val()
-      const projects = Object.keys(values).map(id => ({
+      const projects = Object.keys(values || {}).map(id => ({
         id,
         ...values[id]
       }))
@@ -60,6 +66,21 @@ export const actions = {
     }
 
     commit('SET_LOADING', false)
+  },
+
+  async editProject({ commit }, project) {
+    const user = firebase.auth().currentUser
+
+    try {
+      await firebase
+        .database()
+        .ref(`users/${user.uid}/projects/${project.id}`)
+        .update(project)
+
+      commit('EDIT_PROJECT', project)
+    } catch (error) {
+      this._vm.$toast.error(error.message)
+    }
   },
 
   async deleteProject({ commit }, id) {

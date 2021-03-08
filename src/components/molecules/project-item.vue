@@ -3,7 +3,7 @@
     <div class="flex items-center">
       <div class="flex-1">{{ project.name }}</div>
       <div class="flex items-center">
-        <button class="w-6 h-6 flex items-center justify-center text-gray-500">
+        <button class="w-6 h-6 flex items-center justify-center text-gray-500" @click="handleEdit(project)">
           <EditIcon class="w-4 h-4" />
         </button>
         <button class="w-6 h-6 flex items-center justify-center text-red-500" @click="handleDelete(project)">
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div v-if="project.description" class="text-xs text-gray-500 mt-2">
+    <div v-if="project.description" class="text-sm text-gray-500 mt-2">
       {{ project.description }}
     </div>
   </div>
@@ -36,6 +36,9 @@ export default {
   methods: {
     handleDelete(project) {
       this.$emit('delete', project)
+    },
+    handleEdit(project) {
+      this.$emit('edit', project)
     }
   }
 }

@@ -9,7 +9,7 @@
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="E-mail" rules="required|email">
             <input
-              v-model="form.email"
+              v-model.trim="form.email"
               class="field"
               :class="{ 'field-with-error': errors[0] }"
               type="email"
@@ -24,7 +24,7 @@
         <div class="mb-4">
           <ValidationProvider v-slot="{ errors }" name="Password" rules="required">
             <input
-              v-model="form.password"
+              v-model.trim="form.password"
               class="field"
               :class="{ 'field-with-error': errors[0] }"
               type="password"
@@ -36,7 +36,7 @@
           </ValidationProvider>
         </div>
 
-        <button class="w-full btn" :class="invalid ? 'gray' : 'green'" type="submit" :disabled="invalid">
+        <button class="w-full btn green" type="submit" :disabled="invalid">
           Sign In
         </button>
       </form>
