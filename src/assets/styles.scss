@@ -26,6 +26,10 @@
   @apply bg-green-500 text-white focus:ring-green-300;
 }
 
+.btn.red {
+  @apply bg-red-500 text-white focus:ring-red-300;
+}
+
 .alert {
   @apply px-4 py-2 mb-4 border rounded;
 }

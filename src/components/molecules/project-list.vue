@@ -6,33 +6,42 @@
       No projects. Just press the button above to create a new one.
     </div>
 
-    <div
+    <ProjectItem
       v-for="project in projects.list"
       :key="project.id"
-      class="px-4 py-2 bg-gray-200 border border-gray-300 rounded flex items-center"
-    >
-      <div class="flex-1">{{ project.name }}</div>
-      <div class="flex items-center">
-        <button class="w-6 h-6 flex items-center justify-center text-gray-500">
-          <EditIcon class="w-4 h-4" />
-        </button>
-        <button class="w-6 h-6 flex items-center justify-center text-red-500">
-          <DeleteIcon class="w-4 h-4" />
-        </button>
+      :project="project"
+      @delete="handleDeletionConfirm"
+    />
+
+    <Modal v-if="isDeleteConfirmationShown" @close="handleConfirmationToggle">
+      <template #header>Delete Project</template>
+
+      <p class="mb-4">Do you really want to delete project "{{ selectedProject.name }}"?</p>
+
+      <div class="flex flex-row justify-end space-x-2">
+        <button class="btn gray w-32" @click="handleConfirmationToggle">Cancel</button>
+        <button class="btn red w-32" @click="handleDelete">Delete</button>
       </div>
-    </div>
+    </Modal>
   </div>
 </template>
 
 <script>
-import DeleteIcon from '@/components/atoms/icons/delete'
-import EditIcon from '@/components/atoms/icons/edit'
 import { mapActions, mapState } from 'vuex'
+
+import ProjectItem from '@/components/molecules/project-item'
+import Modal from '@/components/molecules/modal'
 
 export default {
   components: {
-    DeleteIcon,
-    EditIcon
+    Modal,
+    ProjectItem
+  },
+  data() {
+    return {
+      isDeleteConfirmationShown: false,
+      selectedProject: null
+    }
   },
   computed: {
     ...mapState(['projects'])
@@ -41,7 +50,18 @@ export default {
     this.loadProjects()
   },
   methods: {
-    ...mapActions('projects', ['loadProjects'])
+    ...mapActions('projects', ['loadProjects', 'deleteProject']),
+    handleConfirmationToggle() {
+      this.isDeleteConfirmationShown = !this.isDeleteConfirmationShown
+    },
+    handleDeletionConfirm(project) {
+      this.selectedProject = project
+      this.handleConfirmationToggle()
+    },
+    handleDelete() {
+      this.deleteProject(this.selectedProject.id)
+      this.handleConfirmationToggle()
+    }
   }
 }
 </script>

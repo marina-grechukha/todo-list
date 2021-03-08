@@ -18,6 +18,10 @@ export const mutations = {
 
   ADD_PROJECT(state, project) {
     state.list = [...state.list, project]
+  },
+
+  DELETE_PROJECT(state, id) {
+    state.list = state.list.filter(project => project.id !== id)
   }
 }
 
@@ -56,5 +60,20 @@ export const actions = {
     }
 
     commit('SET_LOADING', false)
+  },
+
+  async deleteProject({ commit }, id) {
+    const user = firebase.auth().currentUser
+
+    try {
+      await firebase
+        .database()
+        .ref(`users/${user.uid}/projects/${id}`)
+        .remove()
+
+      commit('DELETE_PROJECT', id)
+    } catch (error) {
+      this._vm.$toast.error(error.message)
+    }
   }
 }
